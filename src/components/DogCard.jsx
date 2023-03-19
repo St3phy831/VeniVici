@@ -8,12 +8,12 @@ const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 const QUERY = `https://api.thedogapi.com/v1/images/search?api_key=${ACCESS_KEY}&limit=5&has_breeds=true&size=small`;
 
 const DogCard = (props) => {
-  // TODO: Will need get ban_list state and function as props
   const [dogInfo, setDogInfo] = useState({
     url: "",
     name: "",
     breed_group: "",
     life_span: "",
+    none_found: false,
   });
 
   const callAPI = async () => {
@@ -27,22 +27,41 @@ const DogCard = (props) => {
 
   const updateDogInfo = async () => {
     const data = await callAPI().catch(console.error);
-    const dogData = data[0];
-    // TODO: Will need to filter results based on ban_list
-    /* 
-    TODO: Once get filtered array, if results use data to setDogInfo. 
-    Otherwise, clear data and display message that no result with specifications was found.
-    Can do this by adding another key-value pair in dogInfo state
-    */
-    setDogInfo({
-      url: dogData.url,
-      name: dogData.breeds[0].name,
-      breed_group: dogData.breeds[0].breed_group,
-      life_span: dogData.breeds[0].life_span,
-    });
+    // console.log(data);
+    const result = data.filter(filterDogs);
+    // console.log(result);
+    if (result.length > 0) {
+      const dogData = result[0];
+      setDogInfo({
+        url: dogData.url,
+        name: dogData.breeds[0].name,
+        breed_group: dogData.breeds[0].breed_group,
+        life_span: dogData.breeds[0].life_span,
+        none_found: false,
+      });
+    } else {
+      // Didn't find appropriate response, so reset info
+      setDogInfo({
+        url: "",
+        name: "",
+        breed_group: "",
+        life_span: "",
+        none_found: true,
+      });
+    }
   };
 
-  // TODO: Will need to create check functions to filter by each attribute of ban_list
+  const filterDogs = (data) => {
+    // make sure dog info conforms to user's ban list
+    // console.log(data.breeds[0]);
+    const breedInfo = data.breeds[0];
+    const list = props.list;
+    return (
+      !list.name.includes(breedInfo.name) &&
+      !list.breed_group.includes(breedInfo.breed_group) &&
+      !list.life_span.includes(breedInfo.life_span)
+    );
+  };
 
   return (
     <div className="DogCard">
@@ -56,7 +75,13 @@ const DogCard = (props) => {
           </div>
         </Card.Text>
         <div className="dogInfo">
-          {dogInfo.name ? (
+          {dogInfo.none_found && (
+            <p className="noResults">
+              No results with those specifications were found. Try again please
+              🥺
+            </p>
+          )}
+          {dogInfo.name && (
             <Button
               variant="primary"
               className="dogInfoBtn"
@@ -66,10 +91,8 @@ const DogCard = (props) => {
             >
               {dogInfo.name}
             </Button>
-          ) : (
-            <div> </div>
           )}
-          {dogInfo.breed_group ? (
+          {dogInfo.breed_group && (
             <Button
               variant="primary"
               className="dogInfoBtn"
@@ -79,10 +102,8 @@ const DogCard = (props) => {
             >
               {dogInfo.breed_group}
             </Button>
-          ) : (
-            <div> </div>
           )}
-          {dogInfo.life_span ? (
+          {dogInfo.life_span && (
             <Button
               variant="primary"
               className="dogInfoBtn"
@@ -92,11 +113,9 @@ const DogCard = (props) => {
             >
               {dogInfo.life_span}
             </Button>
-          ) : (
-            <div> </div>
           )}
         </div>
-        {dogInfo.url ? (
+        {dogInfo.url && (
           <div>
             <img
               className="dogImage"
@@ -104,8 +123,6 @@ const DogCard = (props) => {
               alt="Dog image returned"
             />
           </div>
-        ) : (
-          <div> </div>
         )}
         <Button variant="primary" onClick={updateDogInfo}>
           Discover

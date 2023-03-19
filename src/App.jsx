@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="App">
-      <DogCard handleSetBanList={updateBanList}></DogCard>
+      <DogCard list={banList} handleSetBanList={updateBanList}></DogCard>
       <BanList list={banList}></BanList>
     </div>
   );

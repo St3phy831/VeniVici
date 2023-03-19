@@ -29,3 +29,7 @@ Button {
 .dogInfoBtn {
   margin: 3px;
 }
+.noResults {
+  color: black;
+  font-size: 20px;
+}
