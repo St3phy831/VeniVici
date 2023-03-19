@@ -1,17 +1,39 @@
+import { useState } from "react";
 import DogCard from "./components/DogCard";
 import BanList from "./components/BanList";
 import "./App.css";
 
 function App() {
-  /*
-  TODO: Will need to create state for ban_list: may be dictionary with different categories and an array of them.
-  Will need to pass state and setState function to DogCard.
-  */
+  const [banList, setBanList] = useState({
+    name: [],
+    breed_group: [],
+    life_span: [],
+  });
+
+  const updateBanList = (key, value) => {
+    let newBanListItem = {};
+    switch (key) {
+      case "name":
+        newBanListItem = { name: [...banList[key], value] };
+        break;
+      case "breed_group":
+        newBanListItem = { breed_group: [...banList[key], value] };
+        break;
+      case "life_span":
+        newBanListItem = { life_span: [...banList[key], value] };
+        break;
+      default:
+        // Nothing will be updated otherwise
+        console.log("Invalid option!");
+    }
+    const newBanList = { ...banList, ...newBanListItem };
+    setBanList(newBanList);
+  };
 
   return (
     <div className="App">
-      <DogCard></DogCard>
-      <BanList></BanList>
+      <DogCard handleSetBanList={updateBanList}></DogCard>
+      <BanList list={banList}></BanList>
     </div>
   );
 }

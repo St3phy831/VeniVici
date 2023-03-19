@@ -7,7 +7,7 @@ import "./DogCard.css";
 const ACCESS_KEY = import.meta.env.VITE_APP_ACCESS_KEY;
 const QUERY = `https://api.thedogapi.com/v1/images/search?api_key=${ACCESS_KEY}&limit=5&has_breeds=true&size=small`;
 
-const DogCard = () => {
+const DogCard = (props) => {
   // TODO: Will need get ban_list state and function as props
   const [dogInfo, setDogInfo] = useState({
     url: "",
@@ -57,21 +57,39 @@ const DogCard = () => {
         </Card.Text>
         <div className="dogInfo">
           {dogInfo.name ? (
-            <Button variant="primary" className="dogInfoBtn">
+            <Button
+              variant="primary"
+              className="dogInfoBtn"
+              onClick={() => {
+                props.handleSetBanList("name", dogInfo.name);
+              }}
+            >
               {dogInfo.name}
             </Button>
           ) : (
             <div> </div>
           )}
           {dogInfo.breed_group ? (
-            <Button variant="primary" className="dogInfoBtn">
+            <Button
+              variant="primary"
+              className="dogInfoBtn"
+              onClick={() => {
+                props.handleSetBanList("breed_group", dogInfo.breed_group);
+              }}
+            >
               {dogInfo.breed_group}
             </Button>
           ) : (
             <div> </div>
           )}
           {dogInfo.life_span ? (
-            <Button variant="primary" className="dogInfoBtn">
+            <Button
+              variant="primary"
+              className="dogInfoBtn"
+              onClick={() => {
+                props.handleSetBanList("life_span", dogInfo.life_span);
+              }}
+            >
               {dogInfo.life_span}
             </Button>
           ) : (
