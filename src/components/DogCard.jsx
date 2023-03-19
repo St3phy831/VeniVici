@@ -26,7 +26,7 @@ const DogCard = () => {
   };
 
   const updateDogInfo = async () => {
-    const data = await callAPI(query).catch(console.error);
+    const data = await callAPI().catch(console.error);
     const dogData = data[0];
     // TODO: Will need to filter results based on ban_list
     /* 
