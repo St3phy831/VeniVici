@@ -1,0 +1,15 @@
+.BanList {
+  color: white;
+  background-color: gray;
+  height: 100%;
+  width: 20%;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  padding: 13px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  align-items: center;
+}

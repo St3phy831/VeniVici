@@ -1,4 +1,5 @@
 import DogCard from "./components/DogCard";
+import BanList from "./components/BanList";
 import "./App.css";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   return (
     <div className="App">
       <DogCard></DogCard>
+      <BanList></BanList>
     </div>
   );
 }
