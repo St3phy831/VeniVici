@@ -3,7 +3,7 @@
   background-color: gray;
   font-weight: bold;
   border: 1px solid;
-  box-shadow: 10px 10px #373636
+  box-shadow: 10px 10px #373636;
 }
 .cardTitle {
   font-size: 50px;
@@ -14,7 +14,17 @@
 }
 Button {
   margin-top: 15px;
+  color: rgb(165, 206, 250);
 }
 .dogEmojis {
   font-size: 25px;
+}
+.dogImage {
+  width: 300px;
+}
+.dogInfo {
+  margin: 10px;
+}
+.dogInfoBtn {
+  margin: 3px;
 }
